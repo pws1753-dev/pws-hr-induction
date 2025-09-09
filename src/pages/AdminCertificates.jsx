@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import { 
   Award, 
@@ -138,10 +138,10 @@ const AdminCertificates = () => {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
     >
-      <Helmet>
+      <Head>
         <title>Manage Certificates - PWS Group</title>
         <meta name="description" content="Manage, issue, and revoke employee certificates." />
-      </Helmet>
+      </Head>
 
       <div>
         <header className="mb-8">

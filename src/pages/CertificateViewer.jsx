@@ -2,7 +2,7 @@ import React, { useRef, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import { certificatesData } from '@/data/certificates';
@@ -93,10 +93,10 @@ const CertificateViewer = () => {
 
     return (
         <>
-            <Helmet>
+            <Head>
                 <title>Certificate: {certificate.moduleName} - PWS Group</title>
                 <meta name="description" content={`View and download your certificate for completing the ${certificate.moduleName} module.`} />
-            </Helmet>
+            </Head>
             <div className="space-y-6">
                 <div className="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between gap-4">
                     <div>
@@ -121,8 +121,8 @@ const CertificateViewer = () => {
                     </div>
                 </div>
 
-                <Card className="bg-muted/30 p-2 sm:p-4 md:p-8 flex items-center justify-center">
-                    <CardContent className="p-0 w-full max-w-6xl overflow-x-auto">
+                <Card className="bg-muted/30 p-2 sm:p-4 md:p-8 flex items-center justify-center overflow-x-auto">
+                    <CardContent className="p-0 w-full max-w-6xl">
                        <div ref={certificateRef} className="shadow-2xl min-w-[300px]">
                            <CertificateTemplate certificate={certificate} />
                        </div>

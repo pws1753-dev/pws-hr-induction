@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { useAuth } from '@/contexts/AuthContext';
 import { mockModulesData } from '@/data/modules';
 import EmployeeProfileCard from '@/components/Dashboard/EmployeeProfileCard';
@@ -44,9 +44,9 @@ const EmployeeDashboard = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Dashboard - PWS Group</title>
-      </Helmet>
+      </Head>
       
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
         <div>

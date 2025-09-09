@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import { 
   BookOpen, 
@@ -87,12 +87,12 @@ const ModulesPage = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Training Modules - Pyrotech Workspace LMS</title>
         <meta name="description" content="Access your assigned training modules, track progress, and continue your learning journey" />
         <meta property="og:title" content="Training Modules - Pyrotech Workspace LMS" />
         <meta property="og:description" content="Access your assigned training modules, track progress, and continue your learning journey" />
-      </Helmet>
+      </Head>
       
       <div className="min-h-screen bg-white dark:bg-white">
         {/* <Navbar /> */}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { 
   Users, 
   Search, 
@@ -63,10 +63,10 @@ const AdminEmployees = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Employee Management - Pyrotech LMS</title>
         <meta name="description" content="Manage employees and track learning progress across the organization." />
-      </Helmet>
+      </Head>
       
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">

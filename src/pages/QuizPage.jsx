@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 // import Navbar from '@/components/Layout/Navbar';
 import { toast } from '@/components/ui/use-toast';
 import { mockQuizzesData } from '@/data/quizzes';
@@ -133,7 +133,7 @@ const QuizPage = () => {
 
   if (!quiz) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-white">
+      <div className="min-h-screen bg-white dark:bg-white">
         {/* <Navbar /> */}
         <div className="flex items-center justify-center h-96">
           <p className="text-gray-500">Quiz not found or loading...</p>
@@ -144,12 +144,12 @@ const QuizPage = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>{isSubmitted ? `Results - ${quiz.title}` : quiz.title} - Pyrotech LMS</title>
         <meta name="description" content={quiz.description} />
-      </Helmet>
+      </Head>
       
-      <div className="min-h-screen bg-gray-50 dark:bg-white">
+      <div className="min-h-screen bg-white dark:bg-white">
         {/* <Navbar /> */}
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           {isSubmitted && results ? (

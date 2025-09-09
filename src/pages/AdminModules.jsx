@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { 
   BookOpen, 
   Plus, 
@@ -54,10 +54,10 @@ const AdminModules = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Module Management - Pyrotech LMS</title>
         <meta name="description" content="Create, manage, and update training modules for the corporate induction program." />
-      </Helmet>
+      </Head>
       
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
         <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">

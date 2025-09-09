@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { 
   Users, 
   BookOpen, 
@@ -55,10 +55,10 @@ const AdminDashboard = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Admin Dashboard - Pyrotech LMS</title>
         <meta name="description" content="Monitor learning progress and manage the induction program." />
-      </Helmet>
+      </Head>
       
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8">
         <div>

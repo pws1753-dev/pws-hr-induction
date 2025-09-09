@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { useRouter } from 'next/navigation';
 import { 
   Award, 
@@ -57,10 +57,10 @@ const CertificatesPage = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>My Certificates - PWS Group</title>
         <meta name="description" content="View and download your earned certificates." />
-      </Helmet>
+      </Head>
       
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-6">
         <div>
@@ -87,7 +87,7 @@ const CertificatesPage = () => {
           </CardContent>
         </Card>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {filteredCertificates.map((cert, index) => (
             <motion.div key={cert.id} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 + index * 0.05 }}>
               <Card className="h-full flex flex-col hover:border-primary transition-colors group">
@@ -96,9 +96,9 @@ const CertificatesPage = () => {
                     <div className="w-12 h-12 rounded-lg flex items-center justify-center bg-primary/10 shrink-0">
                       <Award className="w-6 h-6 text-primary" />
                     </div>
-                    <Badge variant={cert.status === 'issued' ? 'default' : 'secondary'} className="ml-2">{cert.status}</Badge>
+                    <Badge variant={cert.status === 'issued' ? 'default' : 'secondary'} className="ml-2 capitalize">{cert.status}</Badge>
                   </div>
-                  <CardTitle>{cert.title}</CardTitle>
+                  <CardTitle className="text-base sm:text-lg leading-tight">{cert.title}</CardTitle>
                 </CardHeader>
                 
                 <CardContent className="space-y-4 flex-grow">
@@ -131,7 +131,7 @@ const CertificatesPage = () => {
         </div>
 
         {filteredCertificates.length === 0 && (
-          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12 col-span-1 md:col-span-2">
+          <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-center py-12">
             <Award className="w-16 h-16 text-muted-foreground mx-auto mb-4" />
             <h3 className="text-lg font-medium">No certificates found</h3>
             <p className="text-muted-foreground">Try adjusting your search or filter criteria.</p>

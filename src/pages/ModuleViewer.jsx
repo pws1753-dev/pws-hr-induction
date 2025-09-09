@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { useParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import { 
@@ -121,12 +121,12 @@ const ModuleViewer = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>{module.title} - Pyrotech Workspace LMS</title>
         <meta name="description" content={module.description} />
         <meta property="og:title" content={`${module.title} - Pyrotech Workspace LMS`} />
         <meta property="og:description" content={module.description} />
-      </Helmet>
+      </Head>
       
       <div className="min-h-screen bg-white dark:bg-white">
         {/* <Navbar /> */}

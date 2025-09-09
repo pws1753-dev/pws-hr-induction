@@ -24,7 +24,7 @@ export default function RootLayout({ children }) {
           rel="stylesheet" 
         />
       </head>
-      <body className={inter.className}>
+      <body className={`${inter.className} overflow-x-hidden`} suppressHydrationWarning>
         <Providers>
           <div className="min-h-screen bg-background font-sans">
             {children}

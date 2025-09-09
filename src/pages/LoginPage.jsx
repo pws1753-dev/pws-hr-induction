@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Helmet } from 'react-helmet';
+import Head from 'next/head';
 import { Mail, Loader2, RefreshCw, ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -61,10 +61,10 @@ const LoginPage = () => {
 
   return (
     <>
-      <Helmet>
+      <Head>
         <title>Login - PWS Group</title>
         <meta name="description" content="Login to PWS Group's Corporate Induction Learning Platform" />
-      </Helmet>
+      </Head>
 
       <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50 dark:from-gray-900 dark:via-blue-900 dark:to-indigo-900 flex items-center justify-center p-4">
         <motion.div

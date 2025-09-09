@@ -28,38 +28,38 @@ const CertificatesPreview = ({ certificates }) => {
 
   return (
     <motion.div variants={cardVariants} initial="hidden" animate="visible">
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between">
+      <Card className="overflow-hidden">
+        <CardHeader className="flex flex-row items-center justify-between gap-2">
           <div>
             <CardTitle>My Certificates</CardTitle>
             <CardDescription>Your earned certificates</CardDescription>
           </div>
           <Link href="/certificates">
-            <Button variant="outline">View All</Button>
+            <Button variant="outline" size="sm">View All</Button>
           </Link>
         </CardHeader>
         <CardContent>
           {certificates.length > 0 ? (
-            <div className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
               {certificates.slice(0, 2).map((cert) => (
                 <div
                   key={cert.id}
-                  className="flex items-center justify-between p-4 border rounded-lg bg-muted/30"
+                  className="flex items-start justify-between p-4 border rounded-lg bg-muted/30 gap-3"
                 >
-                  <div className="flex items-center space-x-4">
-                    <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
-                      <Award className="w-6 h-6 text-primary" />
+                  <div className="flex items-start space-x-3 min-w-0">
+                    <div className="w-10 h-10 sm:w-12 sm:h-12 bg-primary/10 rounded-lg flex items-center justify-center shrink-0">
+                      <Award className="w-5 h-5 sm:w-6 sm:h-6 text-primary" />
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-foreground">
+                    <div className="min-w-0">
+                      <h4 className="font-semibold text-foreground truncate">
                         {cert.title}
                       </h4>
-                      <p className="text-sm text-muted-foreground">
+                      <p className="text-xs sm:text-sm text-muted-foreground truncate">
                         {cert.issueDate ? `Issued on ${cert.issueDate}`: 'Pending'}
                       </p>
                     </div>
                   </div>
-                  <div className="flex space-x-2">
+                  <div className="flex flex-wrap gap-2 sm:gap-2 justify-end">
                     <Button
                       variant="ghost"
                       size="sm"

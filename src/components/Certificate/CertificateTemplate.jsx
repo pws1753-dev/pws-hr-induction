@@ -18,11 +18,11 @@ const CertificateTemplate = React.forwardRef(({ certificate }, ref) => {
   const signatureUrl = 'https://horizons-cdn.hostinger.com/80183b82-9400-4995-812e-b97ec408ba93/d1297e682e864cd2e84d416b27e85292.webp';
   
   return (
-    <div ref={ref} className="w-full aspect-[1.414] min-h-[400px] sm:min-h-[500px] md:min-h-[600px] bg-white text-[#1a202c] p-[3%] sm:p-[5%] font-[Georgia] flex flex-col justify-center">
-      <div className="w-full h-full border-2 sm:border-4 border-double border-[#0d1b2a] bg-[#fdfdfd] p-[3%] sm:p-[5%] flex flex-col relative">
+    <div ref={ref} className="w-full mx-auto max-w-full md:max-w-[900px] md:aspect-[1.414] min-h-[320px] sm:min-h-[420px] md:min-h-[600px] bg-white text-[#1a202c] p-[3%] sm:p-[5%] font-[Georgia] flex flex-col justify-center">
+      <div className="w-full h-full border-2 sm:border-4 border-double border-[#0d1b2a] bg-[#fdfdfd] p-[3%] sm:p-[5%] flex flex-col relative overflow-hidden">
         <div 
           className="absolute inset-0 bg-no-repeat bg-center opacity-[0.03] pointer-events-none" 
-          style={{ backgroundImage: `url('https://horizons-cdn.hostinger.com/80183b82-9400-4995-812e-b97ec408ba93/41e3368990de7b6efa3e0394377972d2.webp')`, backgroundSize: '35%' }}>
+          style={{ backgroundImage: `url('https://horizons-cdn.hostinger.com/80183b82-9400-4995-812e-b97ec408ba93/41e3368990de7b6efa3e0394377972d2.webp')`, backgroundSize: '45%' }}>
         </div>
 
         <header className="flex flex-col sm:flex-row justify-between items-center z-10 w-full gap-2 sm:gap-0">
@@ -39,9 +39,9 @@ const CertificateTemplate = React.forwardRef(({ certificate }, ref) => {
             <p className="font-sans text-[clamp(0.8rem,1.5vw,1.5rem)] font-light uppercase tracking-[0.2em] sm:tracking-[0.3em] text-[#718096]">
               Certificate of Completion
             </p>
-            <div className="my-[1%] sm:my-[2%] w-1/4 sm:w-1/5 h-[1px] sm:h-[2px] bg-[#bfa181]"></div>
+            <div className="my-[1%] sm:my-[2%] w-1/3 sm:w-1/5 h-[1px] sm:h-[2px] bg-[#bfa181]"></div>
             <p className="font-sans text-[clamp(0.6rem,1.2vw,1.125rem)] text-[#718096] mb-1 sm:mb-2">This is to proudly certify that</p>
-            <h1 className="text-[clamp(1.5rem,4vw,3.75rem)] font-bold tracking-tight text-[#0d1b2a] leading-tight break-words">{employeeName}</h1>
+            <h1 className="text-[clamp(1.5rem,4vw,3.75rem)] font-bold tracking-tight text-[#0d1b2a] leading-tight break-words px-2">{employeeName}</h1>
             <p className="font-sans text-[clamp(0.6rem,1.2vw,1.125rem)] text-[#718096] mt-2 sm:mt-4 max-w-2xl sm:max-w-3xl mx-auto px-2">
               has successfully completed all requirements for the training module
             </p>
