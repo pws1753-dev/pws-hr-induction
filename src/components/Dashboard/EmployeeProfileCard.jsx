@@ -2,7 +2,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { User, Mail } from 'lucide-react';
+import { User, Mail, IndentIcon, DicesIcon } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -26,6 +26,8 @@ const EmployeeProfileCard = () => {
   const profileItems = [
     { icon: User, label: 'Name', value: user?.name },
     { icon: Mail, label: 'Email', value: user?.email },
+    { icon: IndentIcon, label: 'Employee Id', value: user?.employeeId  },
+    { icon: DicesIcon, label: 'Designation', value: user?.designation  },
   ];
 
   return (

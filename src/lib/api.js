@@ -1,35 +1,55 @@
+import axios from 'axios';
+
 const API_BASE_URL = 'http://localhost:8080';
 
+const axiosInstance = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export const initiateLogin = async (email) => {
-  const response = await fetch(`${API_BASE_URL}/user/email/initiate`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email }),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: 'Network error' }));
-    throw new Error(errorData.message || 'Failed to initiate login');
+  try {
+    const response = await axiosInstance.post('/user/email/initiate', { email });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to initiate login');
   }
-
-  return await response.json();
 };
 
 export const verifyLogin = async (email, otp) => {
-  const response = await fetch(`${API_BASE_URL}/user/email/verify`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({ email, otp }),
-  });
-
-  if (!response.ok) {
-    const errorData = await response.json().catch(() => ({ message: 'Network error' }));
-    throw new Error(errorData.message || 'Failed to verify OTP');
+  try {
+    const response = await axiosInstance.post('/user/email/verify', { email, otp });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to verify OTP');
   }
+};
 
-  return await response.json();
+export const updateUser = async (userId, token, userData) => {
+  try {
+    const response = await axiosInstance.put(`/user/update/${userId}`, userData, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("response.data", response.data)
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to update user');
+  }
+};
+
+export const fetchDepartments = async (token) => {
+  try {
+    const response = await axiosInstance.get('/module/departments', {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error(error.response?.data?.message || 'Failed to fetch departments');
+  }
 };
