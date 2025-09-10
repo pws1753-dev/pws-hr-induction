@@ -43,8 +43,14 @@ const LoginPage = () => {
   const handleOtpSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    await verifyOTPAndLogin(otp);
+    const result = await verifyOTPAndLogin(otp);
     setLoading(false);
+    if (result.success) {
+      setStep('email');
+      setEmail('');
+      setOtp('');
+      setTimer(0);
+    }
   };
   
   const handleResendOtp = async () => {

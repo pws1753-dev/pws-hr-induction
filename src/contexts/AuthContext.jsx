@@ -2,7 +2,9 @@
 
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
+import { useMutation } from '@tanstack/react-query';
 import { toast } from '@/components/ui/use-toast';
+import { initiateLogin, verifyLogin } from '@/lib/api';
 
 const AuthContext = createContext();
 
@@ -25,7 +27,57 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [currentEmail, setCurrentEmail] = useState(null);
   const router = useRouter();
+
+  const initiateMutation = useMutation({
+    mutationFn: initiateLogin,
+    onSuccess: (data, variables) => {
+      toast({
+        title: "OTP Sent",
+        description: `A 6-digit code has been sent to ${variables.email}.`,
+      });
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const verifyMutation = useMutation({
+    mutationFn: ({ email, otp }) => verifyLogin(email, otp),
+    onSuccess: (data) => {
+      // Data structure: { statusCode, message, user, token }
+      const loggedInUser = {
+        id: data.user._id,
+        name: data.user.name,
+        email: data.user.email,
+        role: data.user.role === 'user' ? 'employee' : data.user.role, // Map 'user' to 'employee'
+        department: data.user.department,
+        designation: data.user.designation,
+        employeeId: data.user.employeeId,
+      };
+      setUser(loggedInUser);
+      setIsAuthenticated(true);
+      localStorage.setItem('lms_user', JSON.stringify(loggedInUser));
+      localStorage.setItem('lms_token', data.token);
+      toast({
+        title: "Login Successful",
+        description: `Welcome, ${loggedInUser.name}!`,
+      });
+      router.push(loggedInUser.role === 'admin' ? '/admin' : '/dashboard');
+    },
+    onError: (error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
 
   useEffect(() => {
     try {
@@ -42,99 +94,38 @@ export const AuthProvider = ({ children }) => {
     setLoading(false);
   }, []);
 
-  // Simulates sending an OTP. In a real app, this would be a backend call.
   const requestLoginOTP = async (email) => {
-    // This is a mock function. It does not actually send an email.
-    // We are simulating the Brevo SMTP call described by the user.
-    console.log(`Simulating sending OTP to ${email} via Brevo SMTP...`);
-
-    const existingUser = mockUsers.find(u => u.email === email);
-    
-    // Generate a 6-digit OTP
-    const otp = Math.floor(100000 + Math.random() * 900000).toString();
-
-    // In a real app, you'd hash the OTP and store it with an expiry.
-    // Here, we store it in localStorage for demonstration.
-    const otpData = {
-      email,
-      otp, // In a real app, this would be a hash.
-      expiresAt: Date.now() + 5 * 60 * 1000, // 5 minutes expiry
-      isNewUser: !existingUser,
-    };
-    sessionStorage.setItem('otp_data', JSON.stringify(otpData));
-    
-    console.log(`Generated OTP for ${email}: ${otp}`); // For debugging
-    
-    toast({
-      title: "OTP Sent",
-      description: `A 6-digit code has been sent to ${email}. (Check console for OTP)`,
-    });
-    
-    return { success: true, email };
+    try {
+      setCurrentEmail(email);
+      await initiateMutation.mutateAsync(email);
+      return { success: true, email };
+    } catch (error) {
+      return { success: false };
+    }
   };
 
-  // Simulates verifying the OTP.
   const verifyOTPAndLogin = async (otp) => {
-    const otpDataString = sessionStorage.getItem('otp_data');
-    if (!otpDataString) {
-      toast({ title: "Error", description: "OTP session not found. Please try again.", variant: "destructive" });
+    if (!currentEmail) {
+      toast({
+        title: "Error",
+        description: "Email not found. Please start login again.",
+        variant: "destructive",
+      });
       return { success: false };
     }
-    
-    const otpData = JSON.parse(otpDataString);
-
-    if (Date.now() > otpData.expiresAt) {
-      toast({ title: "OTP Expired", description: "Your OTP has expired. Please request a new one.", variant: "destructive" });
-      sessionStorage.removeItem('otp_data');
+    try {
+      await verifyMutation.mutateAsync({ email: currentEmail, otp });
+      return { success: true };
+    } catch (error) {
       return { success: false };
     }
-
-    // --- START MODIFICATION ---
-    // Bypassing OTP verification for testing purposes as requested by the user.
-    // In a real application, you would compare the entered OTP with the stored OTP.
-    // if (otp !== otpData.otp) {
-    //   toast({ title: "Invalid OTP", description: "The OTP you entered is incorrect.", variant: "destructive" });
-    //   return { success: false };
-    // }
-    // --- END MODIFICATION ---
-
-    let loggedInUser;
-    if (otpData.isNewUser) {
-      // Create a new user (mock) - generate name from email
-      const emailName = otpData.email.split('@')[0];
-      const displayName = emailName.split('.').map(part => 
-        part.charAt(0).toUpperCase() + part.slice(1)
-      ).join(' ');
-      
-      loggedInUser = {
-        id: (mockUsers.length + 1).toString(),
-        name: displayName,
-        email: otpData.email,
-        role: 'employee', // Default role
-      };
-      mockUsers.push(loggedInUser);
-    } else {
-      loggedInUser = mockUsers.find(u => u.email === otpData.email);
-    }
-
-    setUser(loggedInUser);
-    setIsAuthenticated(true);
-    localStorage.setItem('lms_user', JSON.stringify(loggedInUser));
-    sessionStorage.removeItem('otp_data');
-
-    toast({
-      title: "Login Successful",
-      description: `Welcome, ${loggedInUser.name}!`,
-    });
-    
-    router.push(loggedInUser.role === 'admin' ? '/admin' : '/dashboard');
-    return { success: true };
   };
 
   const logout = () => {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem('lms_user');
+    localStorage.removeItem('lms_token');
     toast({
       title: "Logged Out",
       description: "You have been successfully logged out",
